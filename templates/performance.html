@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Performance Analysis | Fake Review Detection</title>
+
+    <!-- Separate CSS file -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <!-- NAVIGATION BAR-->
+
+    <nav class="site-navbar">
+
+        <div class="site-logo">
+            Fake Review Detection
+        </div>
+
+        <div class="nav-links">
+
+            <a href="{{ url_for('home') }}">
+                Home
+            </a>
+
+            <a href="{{ url_for('upload') }}">
+                Dataset
+            </a>
+
+            <a href="{{ url_for('prediction') }}">
+                Prediction
+            </a>
+
+            <a href="{{ url_for('analytics') }}">
+                Analytics
+            </a>
+
+            <a href="{{ url_for('performance_page') }}" class="active">
+                Performance
+            </a>
+
+            <a href="{{ url_for('logout') }}">
+                Logout
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- PAGE HERO-->
+
+    <section class="page-hero">
+
+        <h1>
+            Performance Analysis
+        </h1>
+
+        <p>
+            Evaluation of trained machine learning models on the test dataset.
+        </p>
+
+    </section>
+
+
+    <!--MAIN CONTENT-->
+
+    <main class="container">
+
+
+        <!-- DECISION TREE PERFORMANCE-->
+
+        <section class="card">
+
+            <div class="section-title">
+                🌳 Decision Tree Performance
+            </div>
+
+
+            <!-- Decision Tree Metrics -->
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>Metric</th>
+                            <th>Value</th>
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        <tr>
+
+                            <td>
+                                Accuracy
+                            </td>
+
+                            <td>
+                                <strong>
+                                    {{ "%.2f"|format(performance["decision_tree"]["accuracy"] * 100) }}%
+                                </strong>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                Precision
+                            </td>
+
+                            <td>
+                                <strong>
+                                    {{ "%.2f"|format(performance["decision_tree"]["precision"] * 100) }}%
+                                </strong>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                Recall
+                            </td>
+
+                            <td>
+                                <strong>
+                                    {{ "%.2f"|format(performance["decision_tree"]["recall"] * 100) }}%
+                                </strong>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                F1 Score
+                            </td>
+
+                            <td>
+                                <strong>
+                                    {{ "%.2f"|format(performance["decision_tree"]["f1_score"] * 100) }}%
+                                </strong>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                Training Time
+                            </td>
+
+                            <td>
+                                <strong>
+                                    {{ "%.2f"|format(performance["decision_tree"]["training_time"]) }}
+                                    seconds
+                                </strong>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ADABOOST PERFORMANCE -->
+
+        <section class="card">
+
+            <div class="section-title adaboost-title">
+                🤖 AdaBoost Performance
+            </div>
+
+
+            <!-- AdaBoost Metrics -->
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>Metric</th>
+                            <th>Value</th>
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        <tr>
+
+                            <td>
+                                Accuracy
+                            </td>
+
+                            <td>
+                                <strong>
+                                    {{ "%.2f"|format(performance["adaboost"]["accuracy"] * 100) }}%
+                                </strong>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                Precision
+                            </td>
+
+                            <td>
+                                <strong>
+                                    {{ "%.2f"|format(performance["adaboost"]["precision"] * 100) }}%
+                                </strong>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                Recall
+                            </td>
+
+                            <td>
+                                <strong>
+                                    {{ "%.2f"|format(performance["adaboost"]["recall"] * 100) }}%
+                                </strong>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                F1 Score
+                            </td>
+
+                            <td>
+                                <strong>
+                                    {{ "%.2f"|format(performance["adaboost"]["f1_score"] * 100) }}%
+                                </strong>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                Training Time
+                            </td>
+
+                            <td>
+                                <strong>
+                                    {{ "%.2f"|format(performance["adaboost"]["training_time"]) }}
+                                    seconds
+                                </strong>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+        <!-- MODEL COMPARISON -->
+
+        <section class="card">
+
+            <div class="section-title comparison-title">
+                ⚖️ Model Comparison
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table class="comparison-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Model
+                            </th>
+
+                            <th>
+                                Accuracy
+                            </th>
+
+                            <th>
+                                Precision
+                            </th>
+
+                            <th>
+                                Recall
+                            </th>
+
+                            <th>
+                                F1 Score
+                            </th>
+
+                            <th>
+                                Training Time
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        <!-- Decision Tree -->
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    Decision Tree
+                                </strong>
+                            </td>
+
+                            <td>
+                                {{ "%.2f"|format(performance["decision_tree"]["accuracy"] * 100) }}%
+                            </td>
+
+                            <td>
+                                {{ "%.2f"|format(performance["decision_tree"]["precision"] * 100) }}%
+                            </td>
+
+                            <td>
+                                {{ "%.2f"|format(performance["decision_tree"]["recall"] * 100) }}%
+                            </td>
+
+                            <td>
+                                {{ "%.2f"|format(performance["decision_tree"]["f1_score"] * 100) }}%
+                            </td>
+
+                            <td>
+                                {{ "%.2f"|format(performance["decision_tree"]["training_time"]) }}
+                                sec
+                            </td>
+
+                        </tr>
+
+
+                        <!-- AdaBoost -->
+
+                        <tr class="best-model">
+
+                            <td>
+                                <strong>
+                                    🤖 AdaBoost
+                                </strong>
+                            </td>
+
+                            <td>
+                                <strong>
+                                    {{ "%.2f"|format(performance["adaboost"]["accuracy"] * 100) }}%
+                                </strong>
+                            </td>
+
+                            <td>
+                                <strong>
+                                    {{ "%.2f"|format(performance["adaboost"]["precision"] * 100) }}%
+                                </strong>
+                            </td>
+
+                            <td>
+                                <strong>
+                                    {{ "%.2f"|format(performance["adaboost"]["recall"] * 100) }}%
+                                </strong>
+                            </td>
+
+                            <td>
+                                <strong>
+                                    {{ "%.2f"|format(performance["adaboost"]["f1_score"] * 100) }}%
+                                </strong>
+                            </td>
+
+                            <td>
+                                <strong>
+                                    {{ "%.2f"|format(performance["adaboost"]["training_time"]) }}
+                                    sec
+                                </strong>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <!--INTERPRETATION -->
+
+            <div class="interpretation-box">
+
+                <h3>
+                    💡 Interpretation
+                </h3>
+
+
+                <p>
+
+                    The AdaBoost model achieved higher accuracy,
+                    precision, recall and F1-score compared with
+                    the Decision Tree model on the test dataset.
+
+                </p>
+
+
+                <p>
+
+                    Decision Tree achieved an accuracy of
+
+                    <strong>
+                        {{ "%.2f"|format(performance["decision_tree"]["accuracy"] * 100) }}%
+                    </strong>
+
+                    while AdaBoost achieved an accuracy of
+
+                    <strong>
+                        {{ "%.2f"|format(performance["adaboost"]["accuracy"] * 100) }}%
+                    </strong>.
+
+                </p>
+
+
+                <p>
+
+                    Therefore,
+
+                    <strong>
+                        AdaBoost
+                    </strong>
+
+                    is selected as the better-performing model
+                    for fake product review classification in
+                    this project.
+
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!--FOOTER -->
+
+    <footer class="site-footer">
+
+        Fake Product Review Detection Using Machine Learning
+
+    </footer>
+
+    <!--SEPARATE JAVASCRIPT FILE-->
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+
+</html>

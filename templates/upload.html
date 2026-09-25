@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dataset Upload | Fake Review Detection</title>
+
+    <!-- Separate CSS File -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         NAVIGATION BAR
+    ====================================================== -->
+
+    <nav class="site-navbar">
+
+        <div class="site-logo">
+            Fake Review Detection
+        </div>
+
+        <div class="nav-links">
+
+            <a href="{{ url_for('home') }}">
+                Home
+            </a>
+
+            <a href="{{ url_for('upload') }}" class="active">
+                Dataset
+            </a>
+
+            <a href="{{ url_for('prediction') }}">
+                Prediction
+            </a>
+
+            <a href="{{ url_for('analytics') }}">
+                Analytics
+            </a>
+
+            <a href="{{ url_for('performance_page') }}">
+                Performance
+            </a>
+
+            <a href="{{ url_for('logout') }}">
+                Logout
+            </a>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- =====================================================
+         PAGE HEADER
+    ====================================================== -->
+
+    <section class="page-hero">
+
+        <h1>
+            Dataset Upload
+        </h1>
+
+        <p>
+            Upload and preview the fake product review dataset.
+        </p>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="container">
+
+
+        <!-- =================================================
+             ERROR MESSAGE
+        ================================================== -->
+
+        {% if error %}
+
+        <div class="error">
+            {{ error }}
+        </div>
+
+        {% endif %}
+
+
+
+        <!-- =================================================
+             UPLOAD DATASET
+        ================================================== -->
+
+        <section class="upload-card">
+
+            <h2>
+                Upload Dataset
+            </h2>
+
+            <p>
+                Select the CSV dataset used for training and testing
+                the fake review detection models.
+            </p>
+
+
+            <form
+                action="{{ url_for('upload') }}"
+                method="POST"
+                enctype="multipart/form-data"
+            >
+
+                <div class="file-area">
+
+                    <div class="file-icon">
+                        📁
+                    </div>
+
+                    <h3>
+                        Select CSV Dataset
+                    </h3>
+
+                    <span>
+                        Choose the fake product review dataset
+                    </span>
+
+
+                    <input
+                        type="file"
+                        name="datasetFile"
+                        id="datasetFile"
+                        class="file-input"
+                        accept=".csv"
+                    >
+
+
+                    <div id="fileName" class="file-name">
+                        No file selected
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
+                    Upload & Preview
+                </button>
+
+            </form>
+
+        </section>
+
+
+
+        {% if preview %}
+
+
+        <!-- =================================================
+             DATASET STATISTICS
+        ================================================== -->
+
+        <section class="stats-section">
+
+            <h2>
+                Dataset Statistics
+            </h2>
+
+
+            <div class="stats-grid">
+
+
+                <div class="stat-card">
+
+                    <h3>
+                        Total Rows
+                    </h3>
+
+                    <div class="number">
+                        {{ rows }}
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <h3>
+                        Total Columns
+                    </h3>
+
+                    <div class="number">
+                        {{ columns }}
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <h3>
+                        Dataset Type
+                    </h3>
+
+                    <div class="number">
+                        CSV
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <h3>
+                        ML Labels
+                    </h3>
+
+                    <div class="number">
+                        CG / OR
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             DATASET COLUMNS
+        ================================================== -->
+
+        <section class="preview-section">
+
+            <div class="preview-header">
+
+                <h2>
+                    Dataset Columns
+                </h2>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table class="dataset-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Column Name
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for column in column_names %}
+
+                        <tr>
+
+                            <td>
+                                {{ column }}
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             DATASET PREVIEW
+        ================================================== -->
+
+        <section class="preview-section">
+
+
+            <div class="preview-header">
+
+                <h2>
+                    Dataset Preview
+                </h2>
+
+                <span>
+                    Showing the first 50 records.
+                </span>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 PREVIEW TABLE
+            ================================================== -->
+
+            <div class="table-wrapper">
+
+                <table class="dataset-table">
+
+
+                    <!-- TABLE HEADER -->
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Category
+                            </th>
+
+                            <th>
+                                Rating
+                            </th>
+
+                            <th>
+                                Label
+                            </th>
+
+                            <th>
+                                Review Text
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <!-- TABLE DATA -->
+
+                    <tbody>
+
+                        {% for row in preview %}
+
+                        <tr>
+
+
+                            <!-- CATEGORY -->
+
+                            <td>
+                                {{ row["category"] }}
+                            </td>
+
+
+                            <!-- RATING -->
+
+                            <td>
+                                {{ row["rating"] }}
+                            </td>
+
+
+                            <!-- LABEL -->
+
+                            <td>
+
+                                {% if row["label"] == "CG" %}
+
+                                <span class="label-cg">
+                                    CG
+                                </span>
+
+                                {% elif row["label"] == "OR" %}
+
+                                <span class="label-or">
+                                    OR
+                                </span>
+
+                                {% else %}
+
+                                {{ row["label"] }}
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <!-- REVIEW TEXT -->
+
+                            <td>
+                                {{ row["text_"] }}
+                            </td>
+
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+
+                </table>
+
+            </div>
+
+
+        </section>
+
+
+        {% endif %}
+
+
+    </main>
+
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer class="site-footer">
+
+        Fake Product Review Detection Using Machine Learning
+
+    </footer>
+
+
+    <!-- =====================================================
+         SEPARATE JAVASCRIPT FILE
+    ====================================================== -->
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+
+</body>
+
+</html>

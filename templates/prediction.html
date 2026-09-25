@@ -1,0 +1,282 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Single Review Analysis | Fake Review Detection</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+
+<body>
+
+    <!-- ============================== -->
+    <!-- Navigation Bar -->
+    <!-- ============================== -->
+
+    <nav class="site-navbar">
+
+        <div class="site-logo">
+            Fake Review Detection
+        </div>
+
+        <div class="nav-links">
+
+            <a href="{{ url_for('home') }}">
+                Home
+            </a>
+
+            <a href="{{ url_for('upload') }}">
+                Dataset
+            </a>
+
+            <a href="{{ url_for('prediction') }}" class="active">
+                Prediction
+            </a>
+
+            <a href="{{ url_for('analytics') }}">
+                Analytics
+            </a>
+
+            <a href="{{ url_for('performance_page') }}">
+                Performance
+            </a>
+
+            <a href="{{ url_for('logout') }}">
+                Logout
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- ============================== -->
+    <!-- Main Container -->
+    <!-- ============================== -->
+
+    <main class="container prediction-container">
+
+
+        <!-- Page Header -->
+
+        <div class="page-header">
+
+            <h1>
+                Single Review Analysis
+            </h1>
+
+            <p>
+                Enter a product review and classify it using
+                the trained machine learning models.
+            </p>
+
+        </div>
+
+
+        <!-- ============================== -->
+        <!-- Prediction Card -->
+        <!-- ============================== -->
+
+        <section class="prediction-card">
+
+            <form
+                action="{{ url_for('prediction') }}"
+                method="POST"
+            >
+
+
+                <!-- Review Input -->
+
+                <div class="form-group">
+
+                    <label for="review">
+                        Product Review
+                    </label>
+
+                    <textarea
+                        id="review"
+                        name="review"
+                        rows="8"
+                        placeholder="Enter the product review here..."
+                        required
+                    >{{ review if review else "" }}</textarea>
+
+                </div>
+
+
+                <!-- Model Selection -->
+
+                <div class="form-group">
+
+                    <label for="model">
+                        Select Machine Learning Model
+                    </label>
+
+                    <select
+                        id="model"
+                        name="model"
+                        required
+                    >
+
+                        <option value="" disabled selected>
+                            Choose Model
+                        </option>
+
+                        <option value="adaboost">
+                            AdaBoost
+                        </option>
+
+                        <option value="decision_tree">
+                            Decision Tree
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Analyze Review Button -->
+
+                <button
+                    type="submit"
+                    class="btn btn-primary btn-full"
+                >
+                    Analyze Review
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- ============================== -->
+        <!-- Prediction Result -->
+        <!-- ============================== -->
+
+        {% if result %}
+
+        <section class="result-card">
+
+            <div class="result-header">
+
+                <h2>
+                    Prediction Result
+                </h2>
+
+            </div>
+
+
+            <div class="result-content">
+
+
+                <!-- Classification -->
+
+                <p class="result-label">
+                    Classification
+                </p>
+
+                <h3
+                    class="{% if 'Fake' in result %}result-fake{% else %}result-original{% endif %}"
+                >
+                    {{ result }}
+                </h3>
+
+
+                <!-- Model Used -->
+
+                {% if model %}
+
+                <div class="result-detail">
+
+                    <span>
+                        Model Used
+                    </span>
+
+                    <strong>
+                        {{ model }}
+                    </strong>
+
+                </div>
+
+                {% endif %}
+
+
+                <!-- Prediction Confidence -->
+
+                {% if confidence is not none %}
+
+                <div class="result-detail">
+
+                    <span>
+                        Prediction Confidence
+                    </span>
+
+                    <strong>
+                        {{ confidence }}%
+                    </strong>
+
+                </div>
+
+                {% endif %}
+
+
+                <!-- Analyzed Review -->
+
+                <div class="review-display">
+
+                    <h4>
+                        Analyzed Review
+                    </h4>
+
+                    <p>
+                        {{ review }}
+                    </p>
+
+                </div>
+
+
+                <!-- Analyze Another Review -->
+
+                <div class="another-review">
+
+                    <a
+                        href="{{ url_for('prediction') }}"
+                        class="btn btn-primary"
+                    >
+                        Analyze Another Review
+                    </a>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+        {% endif %}
+
+
+    </main>
+
+
+    <!-- ============================== -->
+    <!-- Footer -->
+    <!-- ============================== -->
+
+    <footer class="site-footer">
+
+        Fake Product Review Detection Using Machine Learning
+
+    </footer>
+
+
+</body>
+
+</html>
