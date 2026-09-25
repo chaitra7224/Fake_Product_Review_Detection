@@ -1,0 +1,43 @@
+{
+    "dataset": {
+        "total_reviews": 40432,
+        "training_reviews": 32345,
+        "testing_reviews": 8087,
+        "fake_reviews": 20216,
+        "original_reviews": 20216
+    },
+    "decision_tree": {
+        "accuracy": 0.7701,
+        "precision": 0.8013,
+        "recall": 0.7183,
+        "f1_score": 0.7575,
+        "training_time": 14.97,
+        "confusion_matrix": [
+            [
+                3324,
+                720
+            ],
+            [
+                1139,
+                2904
+            ]
+        ]
+    },
+    "adaboost": {
+        "accuracy": 0.8123,
+        "precision": 0.8152,
+        "recall": 0.8076,
+        "f1_score": 0.8114,
+        "training_time": 34.13,
+        "confusion_matrix": [
+            [
+                3304,
+                740
+            ],
+            [
+                778,
+                3265
+            ]
+        ]
+    }
+}
